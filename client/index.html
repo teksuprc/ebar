@@ -1,0 +1,30 @@
+<!doctype>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <title>Ecobar - Client</title>
+
+        <script src="https://localhost:4433/vendor/socket-io-client/2.1.1/socket.io.js"></script>
+        <script src="https://localhost:4433/vendor/rxjs/6.3.3-umd/rxjs.umd.min.js"></script>
+
+    </head>
+    <body>
+        <div>
+            <p>Client<p>
+            <div>
+                <input id="nickname" type="text" placeholder="nickname" required/>
+                <select id="appId" style="width:80px;" required>
+                    <option value="test1">Test 1</option>
+                    <option value="test2">Test 2</option>
+                    <option value="test3">Test 3</option>
+                </select>
+                <button id="btnConnect" type="button" onclick="ecobar_client.join()">Connect</button>
+                <button id="btnDisconnect" type="button" onclick="ecobar_client.disconnect()">Disconnect</button>
+                <button id="btnDisconnect" type="button" onclick="ecobar_client.emitFake()">Emit Fake Message</button>
+            </div>
+            <hr/>
+            <ul id="messages" style="list-style-type: none; width: 640px; height: 420px; overflow-y: auto;"></ul>
+        </div>
+        <script src="https://localhost:4433/clients/js/client.js"></script>
+    </body>
+</html>
