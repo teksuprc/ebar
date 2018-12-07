@@ -1,4 +1,4 @@
-var ecobar_client = (function() {
+var ecobar_client = (function($, toastr) {
     'use strict';
 
     var nickname = 'bob';
@@ -7,6 +7,12 @@ var ecobar_client = (function() {
     var socket = null;
     var joined = false;
     var clientName = 'client-'+new Date().getTime();
+    toastr.options.progressBar = true;
+    toastr.options.preventDuplicates = true;
+    toastr.options.positionClass = "toast-top-full-width";
+    toastr.options.timeOut = 5000;
+    toastr.options.extendedTimeOut = 20000;
+
 
     document.getElementById('btnConnect').disabled = false;
     document.getElementById('btnDisconnect').disabled = true;
@@ -66,14 +72,17 @@ var ecobar_client = (function() {
                 socket.emit('join', { name: nickname, appId: appId });
                 document.getElementById('btnConnect').disabled = true;
                 document.getElementById('btnDisconnect').disabled = false;  
-                joined = true;          
+                joined = true;
             });
 
             socket.on(`${appId}-message`, function(msg) {
                 //console.log('message', msg);
-                var el = document.getElementById('messages');
-                el.innerHTML += `<li>[${msg.appId} ${msg.datetime}]:&nbsp;&nbsp;${msg.text}</li>`;
-                el.scrollTop = el.scrollHeight;
+                var text = msg.text;
+                if(text)
+                    toastr.success(text);
+                //var el = document.getElementById('messages');
+                //el.innerHTML += `<li>[${msg.appId} ${msg.datetime}]:&nbsp;&nbsp;${msg.text}</li>`;
+                //el.scrollTop = el.scrollHeight;
             });
 
             socket.on('disconnect', function() {
@@ -91,5 +100,5 @@ var ecobar_client = (function() {
         emitFake, emitFake
     };
 
-})();
+})(window.jQuery, window.toastr);
 

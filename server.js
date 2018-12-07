@@ -103,15 +103,24 @@ app.get('/clientDashboard', (req, res) => {
     res.sendFile(__dirname + '/client/index.html');
 });
 
-//app.post('/')
+app.get('/adminDashboard', (req, res) => {
+    // TODO: 
+    // 1) authenticate user
+    // 2) get user attributes
+    // 3) 
+    res.sendFile(__dirname + '/admin/index.html');
+});
+
+//app.post('/putItem', (req, res) => {
+
+//});
+
 app.get('/query/:appId', (req, res) => {
     if(req.params.appId)
         from(dbService.getCurrentMessagesForAudience(req.params.appId))
             .subscribe(data => res.json(data.Items));
 });
-
 //#endregion
-
 //#endregion
 
 //#region Data Models
@@ -137,6 +146,7 @@ let MessageRef = function(type, appId, message) {
 //#endregion
 
 let connectedClients = {};
+let audienceKeys = ['test1', 'test2', 'test3'];
 
 const io$ = of(io(server, {
     origins: 'localhost:*',
@@ -293,7 +303,7 @@ connection$.subscribe( ({io, client}) => {
                         if(key) {
                             //newDBMessage.id = `${key}-${newDate.getTime()}`;
                             newDBMessage.audience = key;
-                            putMessageForAudience(newDBMessage);
+                            dbService.putMessageForAudience(newDBMessage);
 
                             let newMessage = new MessageRef('admin-message', 'global', newDBMessage.message);
                             io.emit(`${key}-message`, newMessage);
