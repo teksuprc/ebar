@@ -6,7 +6,6 @@
 
         <link rel="stylesheet" href="https://localhost:4433/vendor/toastr/2.1.1/toastr.css"/>
         <script src="https://localhost:4433/vendor/socket-io-client/2.1.1/socket.io.js"></script>
-        <script src="https://localhost:4433/vendor/rxjs/6.3.3-umd/rxjs.umd.min.js"></script>
         <script src="https://localhost:4433/vendor/jquery/3.3.1/jquery-3.3.1.min.js"></script>
         <script src="https://localhost:4433/vendor/toastr/2.1.1/toastr.js"></script>
 
@@ -23,7 +22,7 @@
                 </select>
                 <button id="btnConnect" type="button" onclick="ecobar_client.join()">Connect</button>
                 <button id="btnDisconnect" type="button" onclick="ecobar_client.disconnect()">Disconnect</button>
-                <button id="btnDisconnect" type="button" onclick="ecobar_client.emitFake()">Emit Fake Message</button>
+                <button id="btnSendFake" type="button" onclick="ecobar_client.emitFake()">Emit Fake Message</button>
             </div>
             <hr/>
             <ul id="messages" style="list-style-type: none; width: 640px; height: 420px; overflow-y: auto;"></ul>

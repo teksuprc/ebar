@@ -1,23 +1,23 @@
 /**
- * 
+ * ECOBAR_ALERTS
  */
+
 //#region Require Dependencies
 const express = require('express');
 const https = require('https');
+const helmet = require('helmet');
+const passport = require('passport');
+const passportHttp = require('passport-http');
 const fs = require('fs');
 const path = require('path');
-const winston = require('winston');
-const morgan = require('morgan');
 const io = require('socket.io');
 const url = require('url');
-const util = require('util');
-const uuid = require('uuid');
-const parser = require('body-parser');
+//const util = require('util');
+//const uuid = require('uuid');
+const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const debug = require('debug');
 const aws = require('aws-sdk');
-
-const dbService = require('./db-service/db-service.js');
 
 const { timer, Observable, Subscription, of, from, fromEvent, interval, Subject } = require('rxjs');
 const { ajax } = require('rxjs/ajax');
@@ -25,54 +25,90 @@ const { map, first, mapTo, tap, switchMap, merge, mergeMap, filter, take, takeUn
         catchError, concat, flatMap, multicast, refCount, share } = require('rxjs/operators');
 //#endregion
 
-//#region Express Setup
-const app = express();
-app.use(express.static('public'));
-app.use(express.static('dist/ecobar-alerts'));
+//#region Logging Setup
+const loggingConfig = {
+    logLocation: './server.log',
+    timeFormat: 'YYYY-MM-DD HH:mm:ss',
+    level: 'info'
+};
+const logging = require('./components/logging')(loggingConfig);
+const logger = logging.logger;
+//#endregion
 
-//#region Logging
-const logger = winston.createLogger({
-    transports: [
-        new winston.transports.Console({
-            level: 'info',
-            colorize: true,
-            format: winston.format.combine(
-                winston.format.timestamp(),
-                winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
-            ),
-        }),
-        new winston.transports.File({
-            filename: path.join(__dirname, 'server.log'),
-            level: 'info',
-            format: winston.format.combine(
-                winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-                winston.format.printf(info => `[${info.timestamp}] [${info.level}]: ${info.message}`)
-            )
-        })
-    ]
-});
+const allowedDomains = 'localhost';
+const AppIdList = ['test1', 'test2', 'test3'];
 
-logger.stream = {
-    write: function(message, encoding) {
-        logger.info(message);
-    }
+let handleError = function(err) {
+    if(err.message) logger.error(err.message);
+    else logger.error(JSON.stringify(err));
 };
 
-// make sure our logger is flushed and shutdown
-process.on('exit', () => {
-    logger.info('server stopped...');
-    logger.end();
-});
-
-app.use(morgan('combined', {stream: logger.stream}));
+//#region Database Setup
+const dbConfig = {
+    "apiVersion": "2012-08-10",
+    "accessKeyid": "abcde",
+    "secretAccessKey": "abcde",
+    "region": "us-east-1",
+    "endpoint": "http://localhost:8000"
+};
+const dbService = require('./components/db-service')(dbConfig);
 //#endregion
+
+//#region Express Setup
+const app = express();
+app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use('/app', express.static(path.join(__dirname, '..', 'dist', 'ecobar-alerts')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(logging.morganStreamHandler);
+app.use(helmet());
+
+/*
+app.use(function(req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader('Strict-Transport-Security', 'max-age=8640000; includeSubDomains');
+    if (!req.secure) {
+        return res.redirect(301, 'https://' + req.host  + ":" + process.env.PORT + req.url);
+    }
+    else {
+        return next();
+    }
+});
+*/
 
 //#region SSL Key and Certificate
 const appOptions = {
-    key: fs.readFileSync('certs/server.key'),
-    cert: fs.readFileSync('certs/server.crt')
+    key: fs.readFileSync(path.join(__dirname, '/../certs/server.key')),
+    cert: fs.readFileSync(path.join(__dirname, '/../certs/server.crt'))
 };
 //#endregion
+
+const Users = [
+    {username: 'russ', password: '1234'},
+    {username: 'bill', password: '1234'}
+];
+
+let findUser = function(username, callback) {
+    let user = Users.filter( u => u.username == username)[0];
+    if(user) 
+        callback(null, user);
+    else
+        callback(new Error(`invalid user: ${username}`));
+}
+
+let verifyPassword = function(user, pass) {
+    return user.password === pass;
+}
+
+passport.use(new passportHttp.BasicStrategy((userid, password, done) => {
+    findUser(userid, (err, user) => {
+        if(err) { return done(err); }
+        if(!user) {return done(null, false); }
+        if(!verifyPassword(user, password)) { return done(null, false); }
+        return done(null, user.username);
+    });
+}));
 
 const server = https.createServer(appOptions, app);
 server.listen(4433, () => {
@@ -80,14 +116,20 @@ server.listen(4433, () => {
 });
 
 //#region Routing
-app.get('/app', (req, res) => {
-    if(req.user) {
-    }
-    res.sendFile(__dirname + '/dist/ecobar-alerts/index.html');
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'start_page', 'index.html'));
 });
 
 app.get('/test', (req, res) => {
-    res.sendFile(__dirname + '/public/test.html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'test.html'));
+});
+
+app.get('/app/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'dist', 'ecobar-alerts', 'index.html'));
+});
+
+app.get('/auth', passport.authenticate('basic', {session: false} ), (req, res) => {
+    res.json(req.user);
 });
 
 app.get('/user', (req, res) => {
@@ -100,25 +142,27 @@ app.get('/clientDashboard', (req, res) => {
     // 1) authenticate user
     // 2) get user attributes
     // 3) 
-    res.sendFile(__dirname + '/client/index.html');
+    res.sendFile(path.join(__dirname, '..', 'views', 'client', 'index.html'));
 });
 
 app.get('/adminDashboard', (req, res) => {
     // TODO: 
-    // 1) authenticate user
-    // 2) get user attributes
-    // 3) 
-    res.sendFile(__dirname + '/admin/index.html');
+    // 1) user must be authenticated
+    // 2) user must have valid role (admin/manager/etc)
+    // 3) get user attributes
+    res.sendFile(path.join(__dirname, '..', 'views', 'admin', 'index.html'));
 });
 
 //app.post('/putItem', (req, res) => {
-
 //});
 
 app.get('/query/:appId', (req, res) => {
-    if(req.params.appId)
-        from(dbService.getCurrentMessagesForAudience(req.params.appId))
-            .subscribe(data => res.json(data.Items));
+    // TODO:
+    // 1) user must be authenticated
+    // 2) user must have valid role (admin/manager/etc)
+    if(req.params.appId && (AppIdList.indexOf(req.params.appId) >= 0))
+        from(dbService.Ecobar_DBService.getCurrentMessagesForKey(req.params.appId))
+            .subscribe(data => res.json(data.Items), handleError);
 });
 //#endregion
 //#endregion
@@ -196,7 +240,7 @@ connection$.subscribe( ({io, client}) => {
         else {
             logger.warn(`***** WARNING ***** Client does not exist ${client.id}`);
         }
-    });
+    }, handleError);
 
     //==============================================================================================================
     // CLIENT JOIN
@@ -226,7 +270,23 @@ connection$.subscribe( ({io, client}) => {
             // SERVER sent messages (from database where the current date is within the range of the startDate and endDate of the message)
             //==============================================================================================================
             // the audience should come from somewhere... idk where yet though
-            dbService.getCurrentMessagesForAudience(connectedClients[client.id].appId)
+            // TODO:
+            //  1) make a hash of client and message... to filter out if the client has seen this message already
+            from(dbService.Ecobar_DBService.getCurrentMessagesForKey(connectedClients[client.id].appId))
+                .pipe(
+                    flatMap(res => res.Items
+                        .filter(item => item.message)
+                        .map(item => new MessageRef('db-message', connectedClients[client.id].appId, item.message))
+                    )
+                )
+                .subscribe(item => {
+                    // **** Hash test goes here for client seen this message
+                    // better yet database entry
+                    client.emit(`${connectedClients[client.id].appId}-message`, item)
+                },
+                handleError);
+/*
+            Ecobar_DBService.getCurrentMessagesForKey(connectedClients[client.id].appId)
             .then(function(data) {
                 if(data && data.Items) {
                     logger.info(`${JSON.stringify(connectedClients[client.id])} db query returned ${data.Items.length} results`);
@@ -238,7 +298,8 @@ connection$.subscribe( ({io, client}) => {
             })
             .catch(function(err) {
                 logger.error(`${client.id} error calling database: ${err.message}`);
-            });            
+            });
+*/
         });
 
     //==============================================================================================================
@@ -255,7 +316,7 @@ connection$.subscribe( ({io, client}) => {
 
             let newMessage = new MessageRef('admin-get-clients', 'Admin Clients Report', msg);
             io.emit('admin-get-clients', newMessage);
-        });
+        }, handleError);
 
     //==============================================================================================================
     // CLIENT admin-message
@@ -294,7 +355,7 @@ connection$.subscribe( ({io, client}) => {
 
                 logger.info(`admin-message from ${connectedClients[client.id]}`);
                 if(app) {
-                    dbService.putMessageForAudience(newDBMessage);
+                    dbService.Ecobar_DBService.putMessageForKey(newDBMessage);
                     let newMessage = new MessageRef('admin-message', app, newDBMessage.message);
                     io.emit(`${app}-message`, newMessage);
                 }
@@ -303,7 +364,7 @@ connection$.subscribe( ({io, client}) => {
                         if(key) {
                             //newDBMessage.id = `${key}-${newDate.getTime()}`;
                             newDBMessage.audience = key;
-                            dbService.putMessageForAudience(newDBMessage);
+                            dbService.Ecobar_DBService.putMessageForKey(newDBMessage);
 
                             let newMessage = new MessageRef('admin-message', 'global', newDBMessage.message);
                             io.emit(`${key}-message`, newMessage);
@@ -311,5 +372,5 @@ connection$.subscribe( ({io, client}) => {
                     });
                 }
             }
-        });
-});
+        }, handleError);
+}, handleError);

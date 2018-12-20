@@ -1,255 +1,38 @@
-[2018-12-07 16:20:28] [info]: NhDA_zp2Qmrrafr5AAAK connected
-[2018-12-07 16:20:28] [info]: joined {"id":"NhDA_zp2Qmrrafr5AAAK","appId":"test3","nickname":"admin1","authenticated":true,"connectionTime":"2018-12-07T21:20:28.919Z"}
-[2018-12-07 16:20:28] [info]: total clients 3
-[2018-12-07 16:20:28] [info]: {"id":"NhDA_zp2Qmrrafr5AAAK","appId":"test3","nickname":"admin1","authenticated":true,"connectionTime":"2018-12-07T21:20:28.919Z"} db query returned 2 results
-[2018-12-07 16:25:27] [info]: server started and listening...
-[2018-12-07 16:25:27] [info]: NquCDJ4YvuD5G31kAAAA connected
-[2018-12-07 16:25:27] [info]: joined {"id":"NquCDJ4YvuD5G31kAAAA","appId":"test3","nickname":"admin1","authenticated":true,"connectionTime":"2018-12-07T21:25:27.527Z"}
-[2018-12-07 16:25:27] [info]: total clients 1
-[2018-12-07 16:25:27] [info]: {"id":"NquCDJ4YvuD5G31kAAAA","appId":"test3","nickname":"admin1","authenticated":true,"connectionTime":"2018-12-07T21:25:27.527Z"} db query returned 2 results
-[2018-12-07 16:25:30] [info]: v8obz0oOaLMQ4tgJAAAB connected
-[2018-12-07 16:25:30] [info]: joined {"id":"v8obz0oOaLMQ4tgJAAAB","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:25:30.800Z"}
-[2018-12-07 16:25:30] [info]: total clients 2
-[2018-12-07 16:25:30] [info]: {"id":"v8obz0oOaLMQ4tgJAAAB","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:25:30.800Z"} db query returned 3 results
-[2018-12-07 16:25:31] [info]: AD-4t8yDdZXHj3GnAAAC connected
-[2018-12-07 16:25:31] [info]: joined {"id":"AD-4t8yDdZXHj3GnAAAC","appId":"test3","nickname":"ricky","authenticated":true,"connectionTime":"2018-12-07T21:25:31.358Z"}
-[2018-12-07 16:25:31] [info]: total clients 3
-[2018-12-07 16:25:31] [info]: {"id":"AD-4t8yDdZXHj3GnAAAC","appId":"test3","nickname":"ricky","authenticated":true,"connectionTime":"2018-12-07T21:25:31.358Z"} db query returned 2 results
-[2018-12-07 16:36:56] [info]: server started and listening...
-[2018-12-07 16:36:56] [info]: R70qQR1v3wj3fbWNAAAA connected
-[2018-12-07 16:36:56] [info]: joined {"id":"R70qQR1v3wj3fbWNAAAA","appId":"test3","nickname":"admin1","authenticated":true,"connectionTime":"2018-12-07T21:36:56.281Z"}
-[2018-12-07 16:36:56] [info]: total clients 1
-[2018-12-07 16:36:56] [info]: bNvv44nELP0icWg4AAAB connected
-[2018-12-07 16:36:56] [info]: {"id":"R70qQR1v3wj3fbWNAAAA","appId":"test3","nickname":"admin1","authenticated":true,"connectionTime":"2018-12-07T21:36:56.281Z"} db query returned 2 results
-[2018-12-07 16:36:56] [info]: joined {"id":"bNvv44nELP0icWg4AAAB","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:36:56.324Z"}
-[2018-12-07 16:36:56] [info]: total clients 2
-[2018-12-07 16:36:56] [info]: {"id":"bNvv44nELP0icWg4AAAB","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:36:56.324Z"} db query returned 3 results
-[2018-12-07 16:36:59] [info]: gEeyDE7pxrEIxGKWAAAC connected
-[2018-12-07 16:36:59] [info]: joined {"id":"gEeyDE7pxrEIxGKWAAAC","appId":"test3","nickname":"ricky","authenticated":true,"connectionTime":"2018-12-07T21:36:59.782Z"}
-[2018-12-07 16:36:59] [info]: total clients 3
-[2018-12-07 16:36:59] [info]: {"id":"gEeyDE7pxrEIxGKWAAAC","appId":"test3","nickname":"ricky","authenticated":true,"connectionTime":"2018-12-07T21:36:59.782Z"} db query returned 2 results
-[2018-12-07 16:37:12] [info]: admin-message from [object Object]
-[2018-12-07 16:37:22] [info]: {"id":"bNvv44nELP0icWg4AAAB","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:36:56.324Z"} disconnected
-[2018-12-07 16:37:22] [info]: total clients 2
-[2018-12-07 16:37:22] [info]: ::1 - - [07/Dec/2018:21:37:22 +0000] "GET /clientDashboard HTTP/1.1" 200 1549 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
 
-[2018-12-07 16:37:33] [info]: sHt5T8vmwViCiJDUAAAD connected
-[2018-12-07 16:37:33] [info]: joined {"id":"sHt5T8vmwViCiJDUAAAD","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:37:33.061Z"}
-[2018-12-07 16:37:33] [info]: total clients 3
-[2018-12-07 16:37:33] [info]: {"id":"sHt5T8vmwViCiJDUAAAD","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:37:33.061Z"} db query returned 4 results
-[2018-12-07 16:37:42] [info]: admin-message from [object Object]
-[2018-12-07 16:38:19] [info]: {"id":"sHt5T8vmwViCiJDUAAAD","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:37:33.061Z"} disconnected
-[2018-12-07 16:38:19] [info]: total clients 2
-[2018-12-07 16:38:21] [info]: 1w62QreWJnJ3M1jOAAAE connected
-[2018-12-07 16:38:21] [info]: joined {"id":"1w62QreWJnJ3M1jOAAAE","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:38:21.296Z"}
-[2018-12-07 16:38:21] [info]: total clients 3
-[2018-12-07 16:38:21] [info]: {"id":"1w62QreWJnJ3M1jOAAAE","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:38:21.296Z"} db query returned 5 results
-[2018-12-07 16:38:51] [info]: {"id":"1w62QreWJnJ3M1jOAAAE","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:38:21.296Z"} disconnected
-[2018-12-07 16:38:51] [info]: total clients 2
-[2018-12-07 16:39:47] [info]: ::1 - - [07/Dec/2018:21:39:47 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:39:55] [info]: 95b8lkXLgcBqLlo7AAAF connected
-[2018-12-07 16:39:55] [info]: joined {"id":"95b8lkXLgcBqLlo7AAAF","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:39:55.451Z"}
-[2018-12-07 16:39:55] [info]: total clients 3
-[2018-12-07 16:39:55] [info]: {"id":"95b8lkXLgcBqLlo7AAAF","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:39:55.451Z"} db query returned 5 results
-[2018-12-07 16:40:54] [info]: {"id":"95b8lkXLgcBqLlo7AAAF","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:39:55.451Z"} disconnected
-[2018-12-07 16:40:54] [info]: total clients 2
-[2018-12-07 16:40:55] [info]: ::1 - - [07/Dec/2018:21:40:55 +0000] "GET /clientDashboard HTTP/1.1" 200 1545 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:40:55] [info]: ::1 - - [07/Dec/2018:21:40:55 +0000] "GET /vendor/toastr/2.1.1/toastr.css HTTP/1.1" 404 169 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:40:57] [info]: 2K63riP-Z9wJkLcYAAAG connected
-[2018-12-07 16:40:57] [info]: joined {"id":"2K63riP-Z9wJkLcYAAAG","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:40:57.926Z"}
-[2018-12-07 16:40:57] [info]: total clients 3
-[2018-12-07 16:40:57] [info]: {"id":"2K63riP-Z9wJkLcYAAAG","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:40:57.926Z"} db query returned 5 results
-[2018-12-07 16:41:27] [info]: {"id":"2K63riP-Z9wJkLcYAAAG","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:40:57.926Z"} disconnected
-[2018-12-07 16:41:27] [info]: total clients 2
-[2018-12-07 16:41:29] [info]: ::1 - - [07/Dec/2018:21:41:29 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:41:29] [info]: ::1 - - [07/Dec/2018:21:41:29 +0000] "GET /vendor/toastr/2.1.1/toastr.css HTTP/1.1" 404 169 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:41:31] [info]: c-cNdwamlJBykmKdAAAH connected
-[2018-12-07 16:41:31] [info]: joined {"id":"c-cNdwamlJBykmKdAAAH","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:41:31.449Z"}
-[2018-12-07 16:41:31] [info]: total clients 3
-[2018-12-07 16:41:31] [info]: {"id":"c-cNdwamlJBykmKdAAAH","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:41:31.449Z"} db query returned 5 results
-[2018-12-07 16:41:42] [info]: ::1 - - [07/Dec/2018:21:41:42 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:41:42] [info]: ::1 - - [07/Dec/2018:21:41:42 +0000] "GET /vendor/toastr/2.1.1/toastr.css HTTP/1.1" 404 169 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:41:43] [info]: w7_sUV_dq8xJtjHvAAAI connected
-[2018-12-07 16:41:43] [info]: joined {"id":"w7_sUV_dq8xJtjHvAAAI","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:41:43.698Z"}
-[2018-12-07 16:41:43] [info]: total clients 4
-[2018-12-07 16:41:43] [info]: {"id":"w7_sUV_dq8xJtjHvAAAI","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:41:43.698Z"} db query returned 5 results
-[2018-12-07 16:42:01] [info]: {"id":"c-cNdwamlJBykmKdAAAH","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:41:31.449Z"} disconnected
-[2018-12-07 16:42:01] [info]: total clients 3
-[2018-12-07 16:42:05] [info]: {"id":"w7_sUV_dq8xJtjHvAAAI","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:41:43.698Z"} disconnected
-[2018-12-07 16:42:05] [info]: total clients 2
-[2018-12-07 16:42:05] [info]: ::1 - - [07/Dec/2018:21:42:05 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:42:05] [info]: ::1 - - [07/Dec/2018:21:42:05 +0000] "GET /vendor/toastr/2.1.1/toastr.css HTTP/1.1" 404 169 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:42:06] [info]: 90fA98EAqn8ITIp3AAAJ connected
-[2018-12-07 16:42:06] [info]: joined {"id":"90fA98EAqn8ITIp3AAAJ","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:42:06.929Z"}
-[2018-12-07 16:42:06] [info]: total clients 3
-[2018-12-07 16:42:07] [info]: {"id":"90fA98EAqn8ITIp3AAAJ","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:42:06.929Z"} db query returned 5 results
-[2018-12-07 16:43:06] [info]: {"id":"90fA98EAqn8ITIp3AAAJ","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:42:06.929Z"} disconnected
-[2018-12-07 16:43:06] [info]: total clients 2
-[2018-12-07 16:43:06] [info]: ::1 - - [07/Dec/2018:21:43:06 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:43:07] [info]: ::1 - - [07/Dec/2018:21:43:07 +0000] "GET /vendor/toastr/2.1.1/toastr.css HTTP/1.1" 404 169 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:43:11] [info]: x-XttGE905kuWorPAAAK connected
-[2018-12-07 16:43:11] [info]: joined {"id":"x-XttGE905kuWorPAAAK","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:43:11.008Z"}
-[2018-12-07 16:43:11] [info]: total clients 3
-[2018-12-07 16:43:11] [info]: {"id":"x-XttGE905kuWorPAAAK","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:43:11.008Z"} db query returned 5 results
-[2018-12-07 16:43:41] [info]: {"id":"x-XttGE905kuWorPAAAK","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:43:11.008Z"} disconnected
-[2018-12-07 16:43:41] [info]: total clients 2
-[2018-12-07 16:43:53] [info]: ::1 - - [07/Dec/2018:21:43:53 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:43:53] [info]: ::1 - - [07/Dec/2018:21:43:53 +0000] "GET /vendor/toastr/2.1.1/toastr.css HTTP/1.1" 404 169 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:43:56] [info]: _bgM3SEVHel4QIteAAAL connected
-[2018-12-07 16:43:57] [info]: joined {"id":"_bgM3SEVHel4QIteAAAL","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:43:56.995Z"}
-[2018-12-07 16:43:57] [info]: total clients 3
-[2018-12-07 16:43:57] [info]: {"id":"_bgM3SEVHel4QIteAAAL","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:43:56.995Z"} db query returned 5 results
-[2018-12-07 16:44:27] [info]: {"id":"_bgM3SEVHel4QIteAAAL","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:43:56.995Z"} disconnected
-[2018-12-07 16:44:27] [info]: total clients 2
-[2018-12-07 16:44:42] [info]: ::1 - - [07/Dec/2018:21:44:42 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:44:42] [info]: ::1 - - [07/Dec/2018:21:44:42 +0000] "GET /vendor/toastr/2.1.1/toastr.css HTTP/1.1" 404 169 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:44:50] [info]: ZAmuBBs0C6Kc7K6BAAAM connected
-[2018-12-07 16:44:50] [info]: joined {"id":"ZAmuBBs0C6Kc7K6BAAAM","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:44:50.026Z"}
-[2018-12-07 16:44:50] [info]: total clients 3
-[2018-12-07 16:44:50] [info]: {"id":"ZAmuBBs0C6Kc7K6BAAAM","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:44:50.026Z"} db query returned 5 results
-[2018-12-07 16:45:20] [info]: {"id":"ZAmuBBs0C6Kc7K6BAAAM","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:44:50.026Z"} disconnected
-[2018-12-07 16:45:20] [info]: total clients 2
-[2018-12-07 16:46:43] [info]: ::1 - - [07/Dec/2018:21:46:43 +0000] "GET /clientDashboard HTTP/1.1" 200 1549 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:46:44] [info]: Dat9JBPQqNHrfr11AAAN connected
-[2018-12-07 16:46:44] [info]: joined {"id":"Dat9JBPQqNHrfr11AAAN","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:46:44.865Z"}
-[2018-12-07 16:46:44] [info]: total clients 3
-[2018-12-07 16:46:44] [info]: {"id":"Dat9JBPQqNHrfr11AAAN","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:46:44.865Z"} db query returned 5 results
-[2018-12-07 16:47:12] [info]: ::1 - - [07/Dec/2018:21:47:12 +0000] "GET /clientDashboard HTTP/1.1" 200 1541 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:47:13] [info]: 5r-LcFZ2icQ8jrUoAAAO connected
-[2018-12-07 16:47:13] [info]: joined {"id":"5r-LcFZ2icQ8jrUoAAAO","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:47:13.371Z"}
-[2018-12-07 16:47:13] [info]: total clients 4
-[2018-12-07 16:47:13] [info]: {"id":"5r-LcFZ2icQ8jrUoAAAO","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:47:13.371Z"} db query returned 5 results
-[2018-12-07 16:47:14] [info]: {"id":"Dat9JBPQqNHrfr11AAAN","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:46:44.865Z"} disconnected
-[2018-12-07 16:47:14] [info]: total clients 3
-[2018-12-07 16:47:43] [info]: {"id":"5r-LcFZ2icQ8jrUoAAAO","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:47:13.371Z"} disconnected
-[2018-12-07 16:47:43] [info]: total clients 2
-[2018-12-07 16:47:50] [info]: 1MLXZN4qIrRNQ9qXAAAP connected
-[2018-12-07 16:47:50] [info]: joined {"id":"1MLXZN4qIrRNQ9qXAAAP","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:47:50.259Z"}
-[2018-12-07 16:47:50] [info]: total clients 3
-[2018-12-07 16:47:50] [info]: {"id":"1MLXZN4qIrRNQ9qXAAAP","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:47:50.259Z"} db query returned 5 results
-[2018-12-07 16:48:50] [info]: {"id":"1MLXZN4qIrRNQ9qXAAAP","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:47:50.259Z"} disconnected
-[2018-12-07 16:48:50] [info]: total clients 2
-[2018-12-07 16:48:50] [info]: ::1 - - [07/Dec/2018:21:48:50 +0000] "GET /clientDashboard HTTP/1.1" 200 1631 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:48:50] [info]: ::1 - - [07/Dec/2018:21:48:50 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:48:50] [info]: ::1 - - [07/Dec/2018:21:48:50 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:48:52] [info]: e3XsQeh0AjKa65VTAAAQ connected
-[2018-12-07 16:48:52] [info]: joined {"id":"e3XsQeh0AjKa65VTAAAQ","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:48:52.252Z"}
-[2018-12-07 16:48:52] [info]: total clients 3
-[2018-12-07 16:48:52] [info]: {"id":"e3XsQeh0AjKa65VTAAAQ","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:48:52.252Z"} db query returned 5 results
-[2018-12-07 16:49:11] [info]: ::1 - - [07/Dec/2018:21:49:11 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:49:11] [info]: ::1 - - [07/Dec/2018:21:49:11 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:49:11] [info]: ::1 - - [07/Dec/2018:21:49:11 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:49:22] [info]: {"id":"e3XsQeh0AjKa65VTAAAQ","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:48:52.252Z"} disconnected
-[2018-12-07 16:49:22] [info]: total clients 2
-[2018-12-07 16:49:54] [info]: ::1 - - [07/Dec/2018:21:49:54 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:49:54] [info]: ::1 - - [07/Dec/2018:21:49:54 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:49:54] [info]: ::1 - - [07/Dec/2018:21:49:54 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:49:55] [info]: f4ZU6sd28EQr2f9VAAAR connected
-[2018-12-07 16:49:55] [info]: joined {"id":"f4ZU6sd28EQr2f9VAAAR","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:49:55.872Z"}
-[2018-12-07 16:49:55] [info]: total clients 3
-[2018-12-07 16:49:55] [info]: {"id":"f4ZU6sd28EQr2f9VAAAR","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:49:55.872Z"} db query returned 5 results
-[2018-12-07 16:50:36] [info]: {"id":"f4ZU6sd28EQr2f9VAAAR","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:49:55.872Z"} disconnected
-[2018-12-07 16:50:36] [info]: total clients 2
-[2018-12-07 16:50:36] [info]: ::1 - - [07/Dec/2018:21:50:36 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:50:36] [info]: ::1 - - [07/Dec/2018:21:50:36 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:50:36] [info]: ::1 - - [07/Dec/2018:21:50:36 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:50:43] [info]: ::1 - - [07/Dec/2018:21:50:43 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:50:43] [info]: ::1 - - [07/Dec/2018:21:50:43 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:50:43] [info]: ::1 - - [07/Dec/2018:21:50:43 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "https://localhost:4433/clientDashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:51:17] [info]: server started and listening...
-[2018-12-07 16:51:17] [info]: PZuZ_Zq8QG0kzk3zAAAA connected
-[2018-12-07 16:51:17] [info]: joined {"id":"PZuZ_Zq8QG0kzk3zAAAA","appId":"test1","nickname":"admin1","authenticated":true,"connectionTime":"2018-12-07T21:51:17.943Z"}
-[2018-12-07 16:51:17] [info]: total clients 1
-[2018-12-07 16:51:18] [info]: {"id":"PZuZ_Zq8QG0kzk3zAAAA","appId":"test1","nickname":"admin1","authenticated":true,"connectionTime":"2018-12-07T21:51:17.943Z"} db query returned 5 results
-[2018-12-07 16:51:18] [info]: AeB5jXMDrOpRuTqbAAAB connected
-[2018-12-07 16:51:18] [info]: joined {"id":"AeB5jXMDrOpRuTqbAAAB","appId":"test3","nickname":"ricky","authenticated":true,"connectionTime":"2018-12-07T21:51:18.932Z"}
-[2018-12-07 16:51:18] [info]: total clients 2
-[2018-12-07 16:51:18] [info]: {"id":"AeB5jXMDrOpRuTqbAAAB","appId":"test3","nickname":"ricky","authenticated":true,"connectionTime":"2018-12-07T21:51:18.932Z"} db query returned 2 results
-[2018-12-07 16:51:31] [info]: ::1 - - [07/Dec/2018:21:51:31 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:52:00] [info]: ::1 - - [07/Dec/2018:21:52:00 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:52:01] [info]: ::1 - - [07/Dec/2018:21:52:01 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:52:02] [info]: ::1 - - [07/Dec/2018:21:52:02 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:52:03] [info]: ::1 - - [07/Dec/2018:21:52:03 +0000] "GET /vendor/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 172 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:52:24] [info]: ::1 - - [07/Dec/2018:21:52:24 +0000] "GET /clientDashboard HTTP/1.1" 200 1637 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:52:37] [info]: wqTa60ZWYGPPUmTFAAAC connected
-[2018-12-07 16:52:37] [info]: joined {"id":"wqTa60ZWYGPPUmTFAAAC","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:52:37.734Z"}
-[2018-12-07 16:52:37] [info]: total clients 3
-[2018-12-07 16:52:37] [info]: {"id":"wqTa60ZWYGPPUmTFAAAC","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:52:37.734Z"} db query returned 5 results
-[2018-12-07 16:52:58] [info]: {"id":"wqTa60ZWYGPPUmTFAAAC","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:52:37.734Z"} disconnected
-[2018-12-07 16:52:58] [info]: total clients 2
-[2018-12-07 16:52:58] [info]: ::1 - - [07/Dec/2018:21:52:58 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:53:00] [info]: vyml-kUMKcIe_15NAAAD connected
-[2018-12-07 16:53:00] [info]: joined {"id":"vyml-kUMKcIe_15NAAAD","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:53:00.706Z"}
-[2018-12-07 16:53:00] [info]: total clients 3
-[2018-12-07 16:53:00] [info]: {"id":"vyml-kUMKcIe_15NAAAD","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:53:00.706Z"} db query returned 5 results
-[2018-12-07 16:54:11] [info]: {"id":"vyml-kUMKcIe_15NAAAD","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:53:00.706Z"} disconnected
-[2018-12-07 16:54:11] [info]: total clients 2
-[2018-12-07 16:54:11] [info]: ::1 - - [07/Dec/2018:21:54:11 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:54:13] [info]: DbaAsfx2sxFdUbcrAAAE connected
-[2018-12-07 16:54:13] [info]: joined {"id":"DbaAsfx2sxFdUbcrAAAE","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:54:13.162Z"}
-[2018-12-07 16:54:13] [info]: total clients 3
-[2018-12-07 16:54:13] [info]: {"id":"DbaAsfx2sxFdUbcrAAAE","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:54:13.162Z"} db query returned 5 results
-[2018-12-07 16:54:24] [info]: {"id":"DbaAsfx2sxFdUbcrAAAE","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:54:13.162Z"} disconnected
-[2018-12-07 16:54:24] [info]: total clients 2
-[2018-12-07 16:54:24] [info]: ::1 - - [07/Dec/2018:21:54:24 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:54:26] [info]: jdqrR_y4VTmRCZgUAAAF connected
-[2018-12-07 16:54:26] [info]: joined {"id":"jdqrR_y4VTmRCZgUAAAF","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:54:26.150Z"}
-[2018-12-07 16:54:26] [info]: total clients 3
-[2018-12-07 16:54:26] [info]: {"id":"jdqrR_y4VTmRCZgUAAAF","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:54:26.150Z"} db query returned 5 results
-[2018-12-07 16:54:54] [info]: {"id":"jdqrR_y4VTmRCZgUAAAF","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:54:26.150Z"} disconnected
-[2018-12-07 16:54:54] [info]: total clients 2
-[2018-12-07 16:54:54] [info]: ::1 - - [07/Dec/2018:21:54:54 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:54:56] [info]: WlQWSk6ex4AZ6by9AAAG connected
-[2018-12-07 16:54:56] [info]: joined {"id":"WlQWSk6ex4AZ6by9AAAG","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:54:56.005Z"}
-[2018-12-07 16:54:56] [info]: total clients 3
-[2018-12-07 16:54:56] [info]: {"id":"WlQWSk6ex4AZ6by9AAAG","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:54:56.005Z"} db query returned 5 results
-[2018-12-07 16:55:18] [info]: {"id":"WlQWSk6ex4AZ6by9AAAG","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:54:56.005Z"} disconnected
-[2018-12-07 16:55:18] [info]: total clients 2
-[2018-12-07 16:55:18] [info]: ::1 - - [07/Dec/2018:21:55:18 +0000] "GET /clientDashboard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0"
-
-[2018-12-07 16:55:19] [info]: SG78NTCGEOnwPDoOAAAH connected
-[2018-12-07 16:55:19] [info]: joined {"id":"SG78NTCGEOnwPDoOAAAH","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:55:19.810Z"}
-[2018-12-07 16:55:19] [info]: total clients 3
-[2018-12-07 16:55:19] [info]: {"id":"SG78NTCGEOnwPDoOAAAH","appId":"test1","nickname":"betty","authenticated":true,"connectionTime":"2018-12-07T21:55:19.810Z"} db query returned 5 results
+[2018-12-20 11:24:03] [info]: server started and listening...
+[2018-12-20 11:24:55] [info]: server started and listening...
+[2018-12-20 11:28:11] [info]: server started and listening...
+[2018-12-20 11:35:59] [info]: server started and listening...
+[2018-12-20 11:39:05] [info]: server started and listening...
+[2018-12-20 11:39:51] [info]: server started and listening...
+[2018-12-20 11:41:02] [info]: server started and listening...
+[2018-12-20 11:43:44] [info]: server started and listening...
+[2018-12-20 11:55:27] [info]: server started and listening...
+[2018-12-20 12:23:12] [info]: server started and listening...
+[2018-12-20 12:27:05] [info]: server started and listening...
+[2018-12-20 12:27:53] [info]: server started and listening...
+[2018-12-20 12:29:00] [info]: server started and listening...
+[2018-12-20 12:30:30] [info]: server started and listening...
+[2018-12-20 12:30:56] [info]: server started and listening...
+[2018-12-20 12:35:16] [info]: server started and listening...
+[2018-12-20 12:37:03] [info]: server started and listening...
+[2018-12-20 12:41:24] [info]: server started and listening...
+[2018-12-20 12:42:31] [info]: server started and listening...
+[2018-12-20 12:42:46] [info]: server started and listening...
+[2018-12-20 12:43:24] [info]: server started and listening...
+[2018-12-20 12:44:02] [info]: server started and listening...
+[2018-12-20 12:45:18] [info]: server started and listening...
+[2018-12-20 12:46:00] [info]: server started and listening...
+[2018-12-20 12:46:25] [info]: server started and listening...
+[2018-12-20 12:48:50] [info]: server started and listening...
+[2018-12-20 12:51:59] [info]: server started and listening...
+[2018-12-20 12:54:20] [info]: server started and listening...
+[2018-12-20 12:55:02] [info]: server started and listening...
+[2018-12-20 13:00:30] [info]: server started and listening...
+[2018-12-20 13:00:51] [info]: server started and listening...
+[2018-12-20 13:04:27] [info]: server started and listening...
+[2018-12-20 13:05:02] [info]: server started and listening...
+[2018-12-20 13:05:09] [info]: server started and listening...
+[2018-12-20 13:05:32] [info]: server started and listening...
+[2018-12-20 13:10:24] [info]: server started and listening...
+[2018-12-20 13:13:34] [info]: server started and listening...

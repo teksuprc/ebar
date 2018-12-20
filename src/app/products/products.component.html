@@ -1,0 +1,19 @@
+<header>
+  <h1>
+      Welcome to {{ title }}!
+  </h1>
+</header>
+
+<nav>
+    <a href="/">Home</a> | <a routerLink="/api">API</a> | <a target="_blank">Products</a>
+</nav>
+  
+<br/><br/>
+
+<div class="row">
+<ul style="list-style-type: none; margin: 0; padding: 0;">
+  <li *ngFor="let tool of tools">
+      <a routerLink="/products/{{tool.shortName}}">{{tool.name}}</a>
+  </li>
+</ul>
+</div>

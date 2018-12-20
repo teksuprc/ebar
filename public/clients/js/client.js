@@ -7,12 +7,23 @@ var ecobar_client = (function($, toastr) {
     var socket = null;
     var joined = false;
     var clientName = 'client-'+new Date().getTime();
-    toastr.options.progressBar = true;
-    toastr.options.preventDuplicates = true;
-    toastr.options.positionClass = "toast-top-full-width";
-    toastr.options.timeOut = 5000;
-    toastr.options.extendedTimeOut = 20000;
-
+    toastr.options = {
+        positionClass: "toast-top-full-width",
+        closeButton: true,
+        newestOnTop: true,
+        progressBar: false,
+        preventDuplicates: true,
+        onclick: null,
+        showDuration: "0",
+        hideDuration: "0",
+        timeOut: 0,
+        extendedTimeOut: 0,
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+        tapToDismiss: false,
+    };
 
     document.getElementById('btnConnect').disabled = false;
     document.getElementById('btnDisconnect').disabled = true;
@@ -78,11 +89,22 @@ var ecobar_client = (function($, toastr) {
             socket.on(`${appId}-message`, function(msg) {
                 //console.log('message', msg);
                 var text = msg.text;
-                if(text)
-                    toastr.success(text);
-                //var el = document.getElementById('messages');
-                //el.innerHTML += `<li>[${msg.appId} ${msg.datetime}]:&nbsp;&nbsp;${msg.text}</li>`;
-                //el.scrollTop = el.scrollHeight;
+                if(text) {
+                    switch(msg.type) {
+                        case 'db-message':
+                            toastr.info(text, `[${appId}-message ${msg.datetime}]`);
+                            break;
+                        case `${appId}-message`:
+                            toastr.sucess(text, `[${appId}-Admin ${msg.datetime}]`);
+                            break;
+                        default:
+                            toastr.info(text, `[${appId}-message ${msg.datetime}]`);
+                    }
+                }
+                
+                var el = document.getElementById('messages');
+                el.innerHTML += `<li>[${msg.appId} ${msg.datetime}]:&nbsp;&nbsp;${msg.text}</li>`;
+                el.scrollTop = el.scrollHeight;
             });
 
             socket.on('disconnect', function() {
