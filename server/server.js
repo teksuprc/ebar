@@ -7,7 +7,6 @@ const express = require('express');
 const https = require('https');
 const helmet = require('helmet');
 const passport = require('passport');
-const passportHttp = require('passport-http');
 const fs = require('fs');
 const path = require('path');
 const io = require('socket.io');
@@ -19,6 +18,7 @@ const favicon = require('serve-favicon');
 const debug = require('debug');
 const aws = require('aws-sdk');
 
+const { ClientRef, MessageRef } = require('./models');
 const { timer, Observable, Subscription, of, from, fromEvent, interval, Subject } = require('rxjs');
 const { ajax } = require('rxjs/ajax');
 const { map, first, mapTo, tap, switchMap, merge, mergeMap, filter, take, takeUntil,
@@ -62,6 +62,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(logging.morganStreamHandler);
 app.use(helmet());
+app.use(passport.initialize());
+app.use(passport.session());
+
+let gxConfig = {
+    clientID: 'xyz123',
+    clientSecret: 'xyz123',
+    callbackURL: 'https://localhost:4433/auth/gx/callback',
+    authorizationURL: 'http://localhost:3000/dialog/authorize',
+    tokenURL: 'http://localhost:3000/oauth/token'
+};
+const gx = require('./components/geoaxis')(gxConfig);
+app.use(gx.routes);
 
 /*
 app.use(function(req, res, next) {
@@ -84,31 +96,12 @@ const appOptions = {
 };
 //#endregion
 
+let sessionUsers = [];
+
 const Users = [
     {username: 'russ', password: '1234'},
     {username: 'bill', password: '1234'}
 ];
-
-let findUser = function(username, callback) {
-    let user = Users.filter( u => u.username == username)[0];
-    if(user) 
-        callback(null, user);
-    else
-        callback(new Error(`invalid user: ${username}`));
-}
-
-let verifyPassword = function(user, pass) {
-    return user.password === pass;
-}
-
-passport.use(new passportHttp.BasicStrategy((userid, password, done) => {
-    findUser(userid, (err, user) => {
-        if(err) { return done(err); }
-        if(!user) {return done(null, false); }
-        if(!verifyPassword(user, password)) { return done(null, false); }
-        return done(null, user.username);
-    });
-}));
 
 const server = https.createServer(appOptions, app);
 server.listen(4433, () => {
@@ -116,25 +109,24 @@ server.listen(4433, () => {
 });
 
 //#region Routing
-app.get('/', (req, res) => {
+/*
+app.get('/', gx.isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'start_page', 'index.html'));
 });
+*/
 
-app.get('/test', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'test.html'));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'login', 'login.html'));
 });
 
-app.get('/app/*', (req, res) => {
+app.get('/auth/gx/callback', passport.authenticate('oauth2', { failureRedirect: '/' }), (req, res) => {
+    //sessionUsers.push(req.user);
+    //res.redirect('/adminDashboard');
+    res.sendFile(path.join(__dirname, '..', 'views', 'admin', 'index.html'));
+});
+
+app.get('/app/*', gx.isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'dist', 'ecobar-alerts', 'index.html'));
-});
-
-app.get('/auth', passport.authenticate('basic', {session: false} ), (req, res) => {
-    res.json(req.user);
-});
-
-app.get('/user', (req, res) => {
-    if(req.user) {
-    }
 });
 
 app.get('/clientDashboard', (req, res) => {
@@ -145,7 +137,7 @@ app.get('/clientDashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'client', 'index.html'));
 });
 
-app.get('/adminDashboard', (req, res) => {
+app.get('/adminDashboard', gx.isAuthenticated, (req, res) => {
     // TODO: 
     // 1) user must be authenticated
     // 2) user must have valid role (admin/manager/etc)
@@ -156,7 +148,7 @@ app.get('/adminDashboard', (req, res) => {
 //app.post('/putItem', (req, res) => {
 //});
 
-app.get('/query/:appId', (req, res) => {
+app.get('/query/:appId', gx.isAuthenticated, (req, res) => {
     // TODO:
     // 1) user must be authenticated
     // 2) user must have valid role (admin/manager/etc)
@@ -168,25 +160,7 @@ app.get('/query/:appId', (req, res) => {
 //#endregion
 
 //#region Data Models
-let ClientRef = function(id, nickname, appId, roles) {
-    return {
-        id: id,
-        appId: appId,
-        nickname: nickname,
-        roles: roles,
-        authenticated: true,
-        connectionTime: new Date().toISOString()
-    };
-};
 
-let MessageRef = function(type, appId, message) {
-    return {
-        type: type,
-        appId: appId,
-        datetime: new Date().toISOString(),
-        text: message
-    };
-};
 //#endregion
 
 let connectedClients = {};

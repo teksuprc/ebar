@@ -4,6 +4,8 @@
 const path = require('path');
 const winston = require('winston');
 const morgan = require('morgan');
+const fs = require('fs');
+
 
 let defaultConfig = {
     logLocation: './server.log',
@@ -41,8 +43,8 @@ let init = function(config) {
             logger.info(message);
         }
     };
-
-    morganStreamHandler = morgan('combined', {stream: logger.stream});
+    let accessLogStream = fs.createWriteStream(path.join(__dirname, '..', 'server.log'), { flags: 'a' })
+    morganStreamHandler = morgan('combined', {stream: accessLogStream}); //logger.stream});
 };
 
 module.exports = function(config) {
