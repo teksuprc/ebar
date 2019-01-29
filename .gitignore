@@ -5,6 +5,10 @@
 /tmp
 /out-tsc
 
+# custom
+Jenkinsfile
+manifest.yml
+
 # dependencies
 /node_modules
 

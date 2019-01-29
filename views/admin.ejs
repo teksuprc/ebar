@@ -1,0 +1,933 @@
+<!doctype>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <title>Ecobar - Admin</title>
+
+        <link rel="stylesheet" href="/vendor/bootstrap/4.1.3/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/vendor/font-awesome/5.6.1/css/all.min.css"/>
+        <link rel="stylesheet" href="/admin/css/styles.css"/>
+        <link rel="stylesheet" href="/css/styles.css"/>
+
+        <script type="text/javascript" src="/vendor/jquery/3.3.1/js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="/vendor/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="nav navbar navbar-expand-lg bg-nav" style="list-style-type: none;">
+                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                        <% if(user == undefined) { %>
+                            <li class="nav-item"><a class="nav-link" href="/gx/login">Login</a></li>
+                        <% } else { %>
+                            <li class="nav-item"><a class="nav-link" href="/admin/api">API</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/user/add">Add User</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/profile">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/gx/logout">Logout</a></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+            <br/>
+
+            <ul id="formTabs" class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a id="activeUsersLink" class="nav-link" data-toggle="tab" href="#activeUsersTab" role="tab" aria-controls="activeUsersTab" aria-selected="true">Active Users Tab</a>
+                </li>
+                <% if(user) { 
+                    let u = JSON.parse(user);
+                    if(u.roles.includes('manager')) { %>
+                <li class="nav-item">
+                    <a id="messageManagementLink" class="nav-link" data-toggle="tab" href="#messageManagementTab" role="tab" aria-controls="messageManagementTab" aria-selected="false">Message Management</a>
+                </li>
+                <li class="nav-item">
+                    <a id="userManagementLink" class="nav-link" data-toggle="tab" href="#userManagementTab" role="tab" aria-controls="userManagementTab" aria-selected="false">User Management</a>
+                </li>
+                <% }} %>
+
+            </ul>
+
+            <div id="formTabContent" class="tab-content">
+        
+                <!-- active users tab -->
+                <div id="activeUsersTab" class="tab-pane fade show active" role="tabpanel" aria-labelledby="activeUsersLink">
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <div class="row">
+                                <div class="mx-auto">
+                                    <h3 style="padding-top:5px;">Active Users Tab</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-11 offset-lg-1">
+                                    <button id="btnGetClients" class="btn btn-secondary" type="button" style="width: 180px; height: 64px;" onclick="adminClient.getActiveClients();">Get Active Clients</button>
+                                    <button type="button" class="btn btn-primary" style="width: 180px; height: 64px;" onclick="adminClient.openModal('newMessageModal')">Submit New Message</button>
+                                    <hr/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 offset-lg-1">
+                                    <div style="display: inline-block; border: 1px solid #37f; border-radius: 5px; padding: 4px; margin-top: 0px; width: 100%; height: 720px;">
+                                        <div>Active Users <span id="socketUsersBadge" class="badge badge-info">0</span></div>
+                                        <hr/>
+                                        <ul id="clients" style="padding: 0px; margin: 0; list-style-type: none; width: 100%; height: 700px; overflow-y: auto;"></ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div style="display: inline-block; border: 1px solid #37f; border-radius: 5px; padding: 4px; margin-top: 0px; width: 100%; height: 720px;">
+                                        <div>Active User Info</div>
+                                        <hr/>
+                                        <div id="clientData" style="padding: 0; margin: 0; list-style-type: none; width: 100%; height: 720px; overflow-y: auto;"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div style="display: inline-block; border: 1px solid #37f; border-radius: 5px; padding: 4px; margin-top: 0px; width: 100%; height: 720px;">
+                                        <div>Messages</div>
+                                        <hr/>
+                                        <ul id="activeUsersTabMessages" style="padding: 0px; list-style-type: none; width: 100%; height: 90%; overflow: auto;"></ul>
+                                    </div>
+                                </div>  
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end active users tab -->
+
+                <!-- message management tab -->
+                <div id="messageManagementTab" class="tab-pane fade" role="tabpanel" aria-labelledby="messageManagementLink">
+                    <div class="row">
+                        <div class="mx-auto">
+                            <h3 style="padding-top:5px;">Message Management Tab</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-11 offset-lg-1">
+                            <button type="button" class="btn btn-secondary" style="width: 180px; height: 64px;" onclick="adminClient.getAllMessages()">All Messages</button>
+                            <button type="button" class="btn btn-warning" style="width: 180px; height: 64px;" onclick="adminClient.getPendingMessages()">Pending Messages</button>
+                            <button type="button" class="btn btn-success" style="width: 180px; height: 64px;" onclick="adminClient.getApprovedMessages()">Approved Messages</button>
+                            <button type="button" class="btn btn-primary" style="width: 180px; height: 64px;" onclick="adminClient.openModal('newBroadcastModal')">Broadcast Message</button>
+                            <hr/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1">
+                            <div style="display: inline-block; border: 1px solid #37f; border-radius: 5px; padding: 4px; margin-top: 0px; width: 100%; height: 720px;">
+                                <div>Messages <span id="messagesBadge" class="badge badge-info">0</span></div>
+                                <hr/>
+                                <ul id="messageList" style="padding: 0px; margin: 0; list-style-type: none; width: 100%; height: 640px; overflow-y: auto;"></ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div style="display: inline-block; border: 1px solid #37f; border-radius: 5px; padding: 4px; margin-top: 0px; width: 100%; height: 720px;">
+                                <div>Message Info</div>
+                                <hr/>
+                                <ul id="messageInfo" style="padding: 0px; list-style-type: none; width: 100%; height: 640px; overflow: auto;"></ul>
+                            </div>
+                        </div>        
+                    </div>
+                </div>
+                <!-- end message management tab -->
+
+                <!-- user management tab -->
+                <div id="userManagementTab" class="tab-pane fade" role="tabpanel" aria-labelledby="userManagementLink">
+                        <div class="row">
+                            <div class="mx-auto">
+                                <h3 style="padding-top:5px;">User Management Tab</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-11 offset-lg-1">
+                                <button type="button" class="btn btn-secondary" style="width: 180px; height: 64px;" onclick="adminClient.getAllUsers()">All Users</button>
+                                <button type="button" class="btn btn-warning" style="width: 180px; height: 64px;" onclick="adminClient.getPendingUsers()">Pending Users</button>
+                                <button type="button" class="btn btn-primary" style="width: 180px; height: 64px;" onclick="adminClient.openModal('newUserModal')">New User</button>
+                                <hr/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 offset-lg-1">
+                                <div style="display: inline-block; border: 1px solid #37f; border-radius: 5px; padding: 4px; margin-top: 0px; width: 100%; height: 720px;">
+                                    <div>Users <span id="usersBadge" class="badge badge-info">0</span></div>
+                                    <hr/>
+                                    <ul id="userList" style="padding: 0px; margin: 0; list-style-type: none; width: 100%; height: 640px; overflow-y: auto;"></ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div style="display: inline-block; border: 1px solid #37f; border-radius: 5px; padding: 4px; margin-top: 0px; width: 100%; height: 720px;">
+                                    <div>User Info</div>
+                                    <hr/>
+                                    <ul id="userInfo" style="padding: 0px; list-style-type: none; width: 100%; height: 640px; overflow: auto;"></ul>
+                                </div>
+                            </div>        
+                        </div>
+                </div>
+                <!-- end user management tab -->
+
+            </div><!-- end tab-content -->
+        </div><!-- end container-fluid -->
+
+
+<!-- new message modal -->
+<div class="modal fade" id="newMessageModal" tabindex="-1" role="dialog" aria-labelledby="newMessageModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newMessageModalTitle">New Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form onsubmit="adminClient.submitMessageForApproval();">
+                <div class="modal-body">
+                    <div style="border: 1px solid #37f; border-radius: 5px; padding: 12px;">
+                        <div class="form-group">
+                            <label for="createMessageAppIds">Application IDs</label>
+                            <select id="createMessageAppIds" class="form-control" multiple="multiple" required></select>
+                            <label for="inputCreateStartDate">Start Date</label>
+                            <input id="inputCreateStartDate" type="date" class="form-control" required>
+                            <label for="inputCreateEndDate">End Date</label>
+                            <input id="inputCreateEndDate" type="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCreateMessageTitle">Message Title</label>
+                            <input id="inputCreateMessageTitle" type="text" pattern=".{3,64}" class="form-control" aria-describedby="messageTitleHelp" required>
+                            <small id="messageTitleHelp" class="form-text text-muted">Enter <b>UNCLASSIFIED</b> message title</small>
+                            <div class="form-control-line"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCreateMessageTxt">Message Text</label>
+                            <textarea id="inputCreateMessageTxt" type="textarea" pattern=".{4,1024}" rows="8" cols="80" class="form-control" aria-describedby="messageHelp" required></textarea>
+                            <small id="messageHelp" class="form-text text-muted">Enter <b>UNCLASSIFIED</b> message text</small>
+                            <div class="form-control-line"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Submit for Approval">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end new message modal -->
+
+<!-- new broadcast message modal -->
+<div class="modal fade" id="newBroadcastModal" tabindex="-1" role="dialog" aria-labelledby="newBroadcastModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newBroadcastModalTitle">New Broadcast Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form onsubmit="adminClient.sendMessage();">
+                    <div class="modal-body">
+                        <div style="border: 1px solid #37f; border-radius: 5px; padding: 12px;">
+                            <div class="form-group">
+                                <label for="sendMessageAppIds">Application IDs</label>
+                                <select id="sendMessageAppIds" class="form-control" multiple="multiple" required></select>    
+                            </div>
+                            <div class="form-group">
+                                    <label for="inputSendMessageTitle">Message Text</label>
+                                    <input id="inputSendMessageTitle" pattern=".{1,64}" class="form-control" aria-describedby="broadcastTitleHelp" required>
+                                    <small id="broadcastTitleHelp" class="form-text text-muted">Enter <b>UNCLASSIFIED</b> title</small>
+                                </div>
+                            <div class="form-group">
+                                <label for="inputSendMessageTxt">Message Text</label>
+                                <textarea id="inputSendMessageTxt" rows="8" cols="80" pattern=".{5,1024}" class="form-control" aria-describedby="broadcastMessageHelp" required></textarea>
+                                <small id="broadcastMessageHelp" class="form-text text-muted">Enter <b>UNCLASSIFIED</b> text</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Send Broadcast">
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+<!-- end new broadcast message modal -->  
+
+<!-- new user modal -->
+<div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="newUserModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUserModalTitle">Create a New User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form onsubmit="adminClient.createNewUser();">
+                <div class="modal-body">
+                    <div style="border: 1px solid #37f; border-radius: 5px; padding: 12px;">
+                        <!-- name/email -->
+                        <div class="form-group">
+                            <label for="newUserEmail">Email</label>
+                            <input id="newUserEmail" type="email" placeholder="username@tests.com" pattern=".+@tests.com" maxlength="50" class="form-control" required>
+                            <small id="emailMessageHelp" class="form-text text-muted">Unclassified Email Address</small>
+                        </div>
+                        <!-- phone -->
+                        <div class="form-group">
+                            <label for="newUserPhone">Phone</label>
+                            <input id="newUserPhone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" maxlength="16" class="form-control" aria-describedby="phoneMessageHelp" required>
+                            <small id="phoneMessageHelp" class="form-text text-muted">Format 123-456-7890</small>
+                        </div>
+                        <!-- department -->
+                        <div class="form-group">
+                            <label for="newUserDept">Department</label>
+                            <input id="newUserDept" type="text" pattern=".{1,64}" class="form-control" required>
+                        </div>
+                        <!-- appIds -->
+                        <div class="form-group">
+                            <label for="newUserAppIds">AppIds</label>
+                            <input id="newUserAppIds" type="text" maxlength="128" class="form-control" aria-describedby="appIdMessageHelp" required>
+                            <small id="appIdMessageHelp" class="form-text text-muted">Comma separated</small>
+                        </div>
+                        <!-- roles -->
+                        <div class="form-group">
+                            <label for="newUserRoles">Roles</label>
+                            <select id="newUserRoles" class="form-control" multiple="multiple" required>
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                                <option value="manager">Manager</option>
+                            </select>
+                            <small id="roleMessageHelp" class="form-text text-muted">Ctrl+Left Click to Select Multiple</small>
+                        </div>
+                        <input id="newUserId" type="hidden">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end new user modal -->        
+
+<script>
+
+    let AdminClient = function(adminUser) {
+        let me = this;
+        me.socketUsers = {};
+        me.messages = {};
+        me.users = {};
+        me.adminUser = adminUser;
+        let socket = null;
+        let createMessageAppIds = document.getElementById('createMessageAppIds');
+        let sendMessageAppIds = document.getElementById('sendMessageAppIds');
+
+        let tmpAppIds = adminUser.appIds.split(',').sort();
+        tmpAppIds.forEach(appId => {
+            let o1 = document.createElement('option');
+            let o2 = document.createElement('option');
+            o1.text = o2.text = appId.charAt(0).toUpperCase() + appId.slice(1);
+            o1.value = o2.value = appId;
+            createMessageAppIds.appendChild(o1);
+            sendMessageAppIds.appendChild(o2);
+        });
+
+        // add 'global' to admin sendMessage
+        let o1 = document.createElement('option');
+        o1.text = 'Global';
+        o1.value = 'global';
+        sendMessageAppIds.appendChild(o1);
+
+        me.connect = function() {
+            try {
+                // initialize
+                me.socket = io('http://localhost:8080', {
+                    forceNew: false,
+                    secure: true,
+                    reconnect: true,
+                    reconnectionAttempts: 'Infinity',
+                    reconnectionDelay: 5000,
+                    reconnectionDelayMax: 10000,
+                    randomizationFactor: 0.5,
+                    autoConnect: true,
+                    /*
+                    path: `/${appId}`,
+                    upgrade: true,
+                    */
+                    // NOTE: these are nodejs client side ONLY
+                    //key: 'private key for ssl',
+                    //cert: 'x509 certificate,
+                    //ca: 'certificate authority',
+                    //cipher: 'the cipher to use [tls1_3, tls1_2, tls1_1, tls1, ssl3, aes256, sha256] TLS_RSA_WITH_AES_256_CBC_SHA            AES256-SHA'
+                    //transport: ['websocket', 'polling']
+                    transport: ['polling']
+                });
+
+                // connect
+                me.socket.on('connect', function() {
+                    console.log(`connected to server...`);
+                    me.socket.emit('join', adminUser);
+                });
+
+                // on appId-message
+                let tmpAppIds = adminUser.appIds.split(',').sort();
+                tmpAppIds.forEach(appId => {
+                    me.socket.on(`${appId}-message`, function(msg) {
+                        if(msg.type === 'global-admin-message') {
+                            // ignore it...
+                            // reason... b/c we'll get every app's message
+                            console.log('got a global admin message in appId-message', msg.message);
+                        }
+                        else {
+                            let datetime = new Date(parseInt(msg.datetime));
+                            let sendTab = document.getElementById('sendTabMessages');
+                            sendTab.innerHTML = `
+                            <li style="padding:2px;">
+                                <div style="border:2px solid #333;font-size:12px;border-collapse:collapse;">
+                                    <div style="background-color: #d7d7d7;">
+                                        <div style="padding: 4px 0 0 4px;font-weight:bold;">${msg.type} - ${datetime.toISOString()}</div>
+                                        <div style="padding: 4px 0 0 4px;>${msg.appId}</div>
+                                        <div style="text-align: center;">${msg.message}</div>
+                                    </div>
+                                </div>
+                            </li>${sendTab.innerHTML}`;
+                            $('#sendTabMessages').scrollTop();
+
+                            let userTab = document.getElementById('activeUsersTabMessages');
+                            userTab.innerHTML = `
+                            <li style="padding:2px;">
+                                <div style="border:2px solid #333;font-size:12px;border-collapse:collapse;">
+                                    <div style="background-color: #d7d7d7;">
+                                        <div style="padding: 4px 0 0 4px;font-weight:bold;">${msg.type} - ${datetime.toISOString()}</div>
+                                        <div style="padding: 4px 0 0 4px;>${msg.appId}</div>
+                                        <div style="text-align: center;">${msg.message}</div>
+                                    </div>
+                                </div>
+                            </li>${userTab.innerHTML}`;
+                            $('#activeUsersTabMessages').scrollTop();
+                        }
+                    });
+                });
+
+                // on connect report
+                me.socket.on(`admin-connect-report`, function(msg) {
+                    me.socketUsers[msg.message.client.id] = msg.message.client;
+                    let el = document.getElementById('activeUsersTabMessages');                    
+                    let created = new Date(parseInt(msg.datetime));
+                    let html = `
+                        <li style="padding:2px;">
+                            <div style="border:2px solid #333;font-size:12px;border-collapse:collapse;">
+                                <div style="background-color: #d7d7d7;">
+                                    <div style="padding: 4px 0 0 4px;font-weight:bold;">${msg.type} - ${created.toISOString()}</div>
+                                    <div style="padding-left: 4px;">Total Clients: ${msg.message.total}</div>
+                                    <div style="text-align: center;">
+                                        <div style="background-color: #0c0;padding-top:4px;">Client Connected:</div>
+                                            ${msg.message.client.id} | ${msg.message.client.name} | ${msg.message.client.appIds}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`;
+                    el.innerHTML = html + el.innerHTML;
+                    $('#activeUsersTabMessages').scrollTop();
+                });
+
+                // on disconnect report
+                me.socket.on(`admin-disconnect-report`, function(msg) {
+                    if(me.socketUsers[msg.message.client.id]) {
+                        let user = me.socketUsers[msg.message.client.id];
+                        let el = document.getElementById('activeUsersTabMessages');
+                        let created = new Date(parseInt(msg.datetime));
+                        let html = `
+                            <li style="padding:2px;">
+                                <div style="border:2px solid #333;font-size:12px;border-collapse:collapse;">
+                                    <div style="background-color: #d7d7d7;">
+                                        <div style="padding: 4px 0 0 4px;font-weight:bold;">${msg.type} - ${created.toISOString()}</div>
+                                        <div style="padding-left: 4px;">Total Clients: ${msg.message.total}</div>
+                                        <div style="text-align: center;">
+                                            <div style="background-color: #f00;padding-top:4px;">Client Connected:</div>
+                                                ${user.id} | ${user.name}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>`;
+                        el.innerHTML = html + el.innerHTML;
+                        $('#messages').scrollTop();
+                        delete me.socketUsers[msg.message.client.id];
+
+                        //TODO: remove user from the rest of the displays
+                    }
+                });
+            
+                // get active socket users
+                me.socket.on(`admin-get-clients`, function(msg) {
+                    let el = document.getElementById('clients');
+                    let html = '';
+                    if(msg.message.users) {
+                        $("#socketUsersBadge").text(msg.message.total);
+                        for(let u of msg.message.users) {
+                            let created = new Date(parseInt(msg.datetime));
+                            me.socketUsers[u.socketId] = u;
+                            html += `
+                                <li style="padding:1px;margin:0;width:100%; overflow-x:auto;background-color:#ccc;color:black;border:2px solid #333;">
+                                    <div style="font-size: 16px;padding:0px; cursor: pointer;" onclick="adminClient.getActiveUserInfo('${u.socketId}')">
+                                        <div>${u.socketId.toString()}<br/><div style="color: #8b0000;">${u.name}</div></div>
+                                    </div>
+                                </li>`;
+                        }
+                        el.innerHTML = html;
+                        $('#clients').scrollTop();
+                    }
+                });
+
+                // get all messages
+                me.socket.on('admin-get-all-messages', function(messages) {
+                    me.handleMessages(messages);
+                });
+
+                // get pending messages
+                me.socket.on('admin-get-pending-messages', function(messages) {
+                    me.handleMessages(messages);
+                });
+
+                // get approved messages
+                me.socket.on('admin-get-approved-messages', function(messages) {
+                    me.handleMessages(messages);
+                });
+
+                // admin message
+                me.socket.on('admin-message', function(msg) {
+                    let activeUserTab = document.getElementById('activeUsersTabMessages');         
+                    let datetime = new Date(parseInt(msg.datetime));
+                    let html = `
+                        <li style="padding:2px;">
+                            <div style="border:2px solid #333;font-size:12px;border-collapse:collapse;">
+                                <div style="padding: 4px 0 0 4px;background-color: #d7d7d7;">
+                                    <div style="padding-bottom: 4px; font-weight:bold;">${msg.type} - ${datetime.toISOString()}</div>
+                                    <div style="text-align: left;">${msg.message}</div>
+                                </div>
+                            </div>
+                        </li>`;
+                    activeUserTab.innerHTML = html + activeUserTab.innerHTML;
+                    $('#activeUsersTabMessages').scrollTop();
+
+                    let sendMsgTab = document.getElementById('sendTabMessages');
+                    html = `
+                        <li style="padding:2px;">
+                            <div style="border:2px solid #333;font-size:12px;border-collapse:collapse;">
+                                <div style="padding: 4px 0 0 4px;background-color: #d7d7d7;">
+                                    <div style="padding-bottom: 4px; font-weight:bold;">${msg.type} - ${datetime.toISOString()}</div>
+                                    <div style="text-align: left;">${msg.message}</div>
+                                </div>
+                            </div>
+                        </li>`;
+                        sendMsgTab.innerHTML = html + sendMsgTab.innerHTML;
+                    $('#sendTabMessages').scrollTop();
+                });
+
+                // get users
+                me.socket.on(`admin-get-users`, function(users) {
+                    me.handleUsers(users);
+                });
+
+                // get pending users
+                me.socket.on(`admin-get-pending-users`, function(users) {
+                    me.handleUsers(users);
+                });
+
+                // on disconnect
+                me.socket.on('disconnect', function() {
+                    console.log('disconnected');
+                });
+            }
+            catch(err) {
+                console.log(JSON.stringify(err, null, 2));
+            }
+        };
+
+        me.handleMessages = function(messages) {
+            document.getElementById('messageInfo').innerHTML = '';
+            let el = document.getElementById('messageList');
+            let html = '';
+            me.message = {};
+            if(messages) {
+                if(messages.length > 0) {
+                    $("#messagesBadge").text(messages.length);
+                    messages.sort((a, b) => (a.startDate > b.startDate) ? 1 : ((b.startDate > a.startDate) ? -1 : 0));
+                    for(let m of messages) {
+                        //id, type, appId, startDate, endDate, message, classification, status, createdBy, expireDate, approvedBy, approvedDate
+                        me.messages[m.id] = m;
+                        let color = '#777';
+                        if(m.status === 'approved') color = '#28c745';
+                        if(m.status === 'pending') color = '#ffbf00';
+                        if(m.status === 'disabled') color = '#af0000';
+
+                        html += `
+                            <li id="${m.id}" style="padding:0px;margin-top:2px;width:100%; overflow-x:auto;background-color:#ccc;color:black;border:2px solid #333;">
+                                <div style="background-color: ${color};font-size: 14px; padding: 12px; cursor: pointer;" onclick="adminClient.getMessageInfo('${m.id}')">
+                                    <div style="text-align: center;border-bottom: 1px solid #333; text-transform: uppercase">${m.type}</div>
+                                    <div>${m.id}</div>
+                                    <div><b>${m.status}</b></div>
+                                </div>
+                            </li>`;
+                    }
+                    el.innerHTML = html;
+                }
+                else {
+                    $("#messagesBadge").text(0);
+                    let el = document.getElementById('messageList');
+                    let html = `
+                        <li style="padding:0px;margin:0;width:100%; overflow-x:auto;background-color:#ccc;color:black;border:2px solid #333;">
+                            <div style="font-size: 14px; padding: 12px; cursor: pointer;">No messages returned</div>
+                        </li>`;
+                    el.innerHTML = html;
+                }
+            }
+        };
+
+        me.handleUsers = function(users) {
+            document.getElementById('userInfo').innerHTML = '';
+            let el = document.getElementById('userList');
+            let html = '';
+            if(users) {
+                if(users.length > 0) {
+                    $("#usersBadge").text(users.length);
+                    users.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+                    for(let u of users) {
+                        //id, type, appId, startDate, endDate, message, classification, status, createdBy, expireDate, approvedBy, approvedDate
+                        me.users[u.uid] = u;
+                        let color = '#777';
+                        if(u.roles.includes('manager')) color = '#28c745';
+                        else if(u.roles.includes('admin')) color = '#ff9400';
+                        else color = '#b2b2b2';
+
+                        html += `
+                            <li style="padding:0px;margin-top:2px;width:100%; overflow-x:auto;background-color:#ccc;color:black;border:2px solid #333;">
+                                <div style="background-color: ${color};font-size: 14px; padding: 12px; cursor: pointer;" onclick="adminClient.getUserInfo('${u.uid}')">
+                                    <div><b>${u.name}</b></div>
+                                    <div>${u.uid}</div>
+                                </div>
+                            </li>`;
+                    }
+                    el.innerHTML = html;
+                }
+                else {
+                    $("#usersBadge").text(0);
+                    let el = document.getElementById('userList');
+                    let html = `
+                        <li style="padding:0px;margin:0;width:100%; overflow-x:auto;background-color:#ccc;color:black;border:2px solid #333;">
+                            <div style="font-size: 14px; padding: 12px; cursor: pointer;">No users returned</div>
+                        </li>`;
+                    el.innerHTML = html;
+                }
+            }
+        };
+
+        me.sendMessage = function() {
+            let select = document.getElementById('sendMessageAppIds');
+            let appIds = [];
+            for(let i = 0; i < select.length; i++)
+                if(select.options[i].selected)
+                    appIds.push(select.options[i].value);
+
+            let title = $('#inputSendMessageTitle').val();
+            let text = $('#inputSendMessageTxt').val();
+            me.socket.emit('admin-message', {appIds: appIds, title: title, message: text});
+            if(appIds.includes('global'))
+                alert('Global message sent');
+            else {
+                alert(`Global message sent to the following AppIds: \n${appIds.toString()}`);
+            }
+        };
+
+        me.submitMessageForApproval = function() {
+            $('#newMessageModal').modal('hide');
+            let select = document.getElementById('createMessageAppIds');
+            let appIds = [];
+            for(let i = 0; i < select.length; i++)
+                if(select.options[i].selected)
+                    appIds.push(select.options[i].value);
+
+            if(appIds.length > 0) {
+                let start = $('#inputCreateStartDate').val();
+                let sd = new Date(start);
+                let end = $('#inputCreateEndDate').val();
+                let ed = new Date(end);
+                let title = $('#inputCreateMessageTitle').val();
+                let text = $('#inputCreateMessageTxt').val();
+                me.socket.emit('admin-message-submission', {appIds: appIds, message: text, title: title, start: sd.getTime(), end: ed.getTime()});
+                alert('Message submitted for approval.');
+
+                $('#inputCreateStartDate').val('');
+                $('#inputCreateEndDate').val('');
+                $('#inputCreateMessageTitle').val('');
+                $('#inputCreateMessageTxt').val('');
+            }
+            else {
+                alert('Please select valid AppIds and complete all required fields.')
+            }
+        };
+
+        me.getActiveClients = function() {
+            me.socket.emit('admin-get-clients');
+        };
+
+        me.getActiveUserInfo = function(id) {
+            let user = me.socketUsers[id];
+            if(user) {
+                let el = document.getElementById('clientData');
+                let creationDate = new Date(parseInt(user.creationDate));
+                let html = `
+                    <li style="padding:0;margin:0;">
+                        <div style="font-size: 12px; overflow-x:auto; background-color:#ccc;color:black;border:2px solid #333;padding:4px;">
+                            <h5>${user.socketId}</h5>
+                            <h6>${user.name}</h6>
+                            <div>App Id's: [${user.appIds}]</div>
+                            <div>Email: ${user.email}</div>
+                            <div>Phone: ${user.phone}</div>
+                            <div>Department: ${user.department}</div>
+                            <div>DN:<br>
+                                <div style="font-size: 10px;">${user.dn}</div>
+                            </div>
+                            <div>Roles: [${user.roles}]</div>
+                            <div>UID: ${user.uid}</div>
+                            <div>Socket Creation Date: ${creationDate.toISOString()}</div>
+                        </div>
+                    </li>`;
+
+                el.innerHTML = html;
+            }
+            else 
+                console.log('user is undefined');
+        };
+
+        me.getMessageInfo = function(id) {
+            let msg = me.messages[id];
+            if(msg) {
+                let el = document.getElementById('messageInfo');
+                let sd = new Date(parseInt(msg.startDate));
+                let ed = new Date(parseInt(msg.endDate));
+                let cd = new Date(parseInt(msg.createdDate));
+                let approveBtn = (msg.status === 'pending') ? 
+                    `<div style="display: inline-block; position: absolute; top: 80px; right: 120px;">
+                        <button type="button" class="btn btn-success" onclick="adminClient.approveMessage('${msg.id}');">Approve</button>
+                    </div>` : '';
+
+                let deleteBtn = (msg.status !== 'disabled') ?
+                    `<div style="display: inline-block; position: absolute; top: 80px; right: 40px;">
+                        <button type="button" class="btn btn-danger" onclick="adminClient.deleteMessage('${msg.id}');">Delete</button>
+                    </div>` : '';
+
+                let eraseBtn = (msg.status === 'disabled') ?
+                    `<div style="display: inline-block; position: absolute; top: 80px; right: 40px;">
+                        <button type="button" class="btn btn-dark" onclick="adminClient.eraseMessage('${msg.id}');">Erase</button>
+                    </div>` : '';
+
+                let html = `
+                    <li style="padding:0;margin:0;">
+                        <div style="font-size: 14px; overflow-x:auto; background-color:#ccc;color:black;border:2px solid #333;padding:12px;">
+                            <div style="display: inline-block;">
+                                <div>Id: ${msg.id}</div>
+                                <div>Type: ${msg.type}</div>
+                                <div>Status: ${msg.status}</div>
+                                <div>App Id: ${msg.appId}</div>
+                                <div>Start Date: ${sd.toISOString()}</div>
+                                <div>End Date: ${ed.toISOString()}</div>
+                                <div>Created By: ${msg.createdBy}</div>
+                                <div>Created Date: ${cd.toISOString()}</div>
+                                <div>Classification: (${msg.classification})</div>
+                                <div>Message: ${msg.message}</div>
+                            </div>
+                            ${approveBtn}
+                            ${deleteBtn}
+                            ${eraseBtn}
+                        </div>
+                    </li>`;
+                el.innerHTML = html;
+            }
+            else 
+                console.log('message is undefined');
+        };
+
+        me.deleteMessage = function(id) {
+            delete me.messages[id];
+            //$('#messageList').remove(id);
+            //let msgList = document.getElementById('messageList');
+            //let li = document.getElementById(id);
+            //msgList.removeChild(li);
+            $(`#${id}`).remove();
+            $('#messageInfo').empty();
+            let count = Object.keys(me.messages).length;
+            $('#messagesBadge').text(count);
+            me.socket.emit('admin-delete-message', id);
+        };
+
+        me.eraseMessage = function(id) {
+            let result = confirm('Erasing this message will permanently delete it from the database. Press OK to continue.');
+            if(result) {
+                delete me.messages[id];
+                $(`#${id}`).remove();
+                $('#messageInfo').empty();
+                let count = Object.keys(me.messages).length;
+                $('#messagesBadge').text(count);
+                me.socket.emit('admin-erase-message', id);
+            }
+        };
+
+        me.approveMessage = function(id) {
+            me.socket.emit('admin-approve-message', id);
+        };
+
+        me.getAllMessages = function() {
+            me.socket.emit('admin-get-all-messages');
+        };
+
+        me.getPendingMessages = function() {
+            me.socket.emit('admin-get-pending-messages');
+        };
+
+        me.getApprovedMessages = function() {
+            me.socket.emit('admin-get-approved-messages');
+        };
+
+        me.openModal = function(name, id) {
+            $(`#${name}`).modal('show');
+            if(id) {
+                let user = me.users[id];
+                if(user) {
+                    $('#newUserName').val(user.name);
+                    $('#newUserEmail').val(user.email);
+                    $('#newUserPhone').val(user.phone);
+                    $('#newUserAppIds').val(user.appIds);
+                    $('#newUserRoles').val(user.roles.split(','));
+                    $('#newUserDept').val(user.department);
+                    $('#newUserId').val(user.id);
+                }
+            }
+        };
+
+        me.createNewUser = function() {
+            $('#newUserModal').modal('hide');
+
+            // get the new user form info
+            let user = {
+                name: $('#newUserEmail').val(),
+                email: $('#newUserEmail').val(),
+                phone: $('#newUserPhone').val(),
+                department: $('#newUserDept').val(),
+                appIds: $('#newUserAppIds').val(),
+                roles: $('#newUserRoles').val().join()
+            };
+
+            let id = $('#newUserId').val();
+            if(id) user.id = user.uid = id;
+
+            // submit the new user
+            me.socket.emit('admin-create-user', user);
+
+            // reset the form values
+            $('#newUserName').val('');
+            $('#newUserEmail').val('');
+            $('#newUserPhone').val('');
+            $('#newUserAppIds').val('');
+            $('#newUserRoles').val('');
+            $('#newUserDept').val('');
+        };
+
+        me.updateUser = function() {
+            $('#newUserModal').modal('show');
+
+            // get the new user form info
+            let user = {
+                name: $('#newUserEmail').val(),
+                email: $('#newUserEmail').val(),
+                phone: $('#newUserPhone').val(),
+                department: $('#newUserDept').val(),
+                appIds: $('#newUserAppIds').val(),
+                roles: $('#newUserRoles').val().join()
+            };
+
+            // submit the new user
+            me.socket.emit('admin-update-user', user);
+
+            // reset the form values
+            $('#newUserEmail').val('');
+            $('#newUserPhone').val('');
+            $('#newUserAppIds').val('');
+            $('#newUserRoles').val('');
+            $('#newUserDept').val('');
+        }
+
+        me.getAllUsers = function() {
+            me.socket.emit('admin-get-users');
+        };
+
+        me.getPendingUsers = function() {
+            me.socket.emit('admin-get-pending-users');
+        };
+
+        me.getUserInfo = function(id) {
+            let user = me.users[id];
+            if(user) {
+                let el = document.getElementById('userInfo');
+                let creationDate = new Date(parseInt(user.creationDate));
+
+                let updateBtn = 
+                    `<div style="display: inline-block; position: absolute; top: 80px; right: 120px;">
+                        <button type="button" class="btn btn-success" onclick="adminClient.openModal('newUserModal', '${user.id}');">Update</button>
+                    </div>`;
+
+                let deleteBtn = 
+                    `<div style="display: inline-block; position: absolute; top: 80px; right: 40px;">
+                        <button type="button" class="btn btn-danger" onclick="adminClient.deleteMessage('${user.id}');">Delete</button>
+                    </div>`;
+
+                let html = `
+                    <li style="padding:0;margin:0;">
+                        <div style="font-size: 12px; overflow-x:auto; background-color:#ccc;color:black;border:2px solid #333;padding:4px;">
+                            <h5>${user.name}</h5>
+                            <h6>${user.uid}</h6>
+                            <div>Email: ${user.email}</div>
+                            <div>Phone: ${user.phone}</div>
+                            <div>Department: ${user.department}</div>
+                            <div>DN:<br>
+                                <div style="font-size: 10px;">${user.dn}</div>
+                            </div>
+                            <div>App Id's: [${user.appIds}]</div>
+                            <div>Roles: [${user.roles}]</div>
+                            <div>Created By: ${user.createdBy}</div>
+                            <div>Creation Date: ${creationDate.toISOString()}</div>
+                            <div>Updated By: ${(user.updatedBy) ? user.updatedBy : ''}</div>
+                            <div>Update Date: ${(user.updateDate) ? user.updateDate : ''}</div>
+                            ${updateBtn}
+                            ${deleteBtn}
+                        </div>
+                    </li>`;
+
+                el.innerHTML = html;
+            }
+            else 
+                console.log('user is undefined');
+        };
+
+        me.approveUser = function(id) {
+            me.socket.emit('admin-approve-user', id);
+        };
+
+        me.connect();
+
+        return me;
+    };
+
+    let adminUser = JSON.parse('<%- user %>');
+    let adminClient = new AdminClient(adminUser);
+
+</script>
+
+    </body>
+</html>

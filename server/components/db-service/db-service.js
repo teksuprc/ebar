@@ -1,38 +1,26 @@
 /**
  * Ecobar_DBService
  */
-const loggingConfig = {
-    logLocation: '../../../server.log',
-    timeFormat: 'YYYY-MM-dd HH:mm:ss',
-    level: 'info'
-};
-const logging = require('../logging')(loggingConfig);
 const aws = require('aws-sdk');
+const logging = require('../logging');
+const config = require('../../../config/vcap-utils');
 
-defaultConfig = {
-    "apiVersion": "2012-08-10",
-    "accessKeyid": "abcde",
-    "secretAccessKey": "abcde",
-    "region": "us-east-1",
-    "endpoint": "http://localhost:8000"
-};
 
 let dynamodb, docClient;
 const logger = logging.logger;
 
+
 class Ecobar_DBService {
     constructor() {}
 
-    init(config) {
-        if(config) {
-            try {
-                dynamodb = new aws.DynamoDB(config);
-                docClient = new aws.DynamoDB.DocumentClient(config);
-                logger.info('database connection successful');
-            }
-            catch(err) {
-                logger.error(err);
-            }
+    init() {
+        try {
+            dynamodb = new aws.DynamoDB(config.db);
+            docClient = new aws.DynamoDB.DocumentClient(config.db);
+            logger.info('database connection successful');
+        }
+        catch(err) {
+            logger.error(err);
         }
     };
 
@@ -135,43 +123,7 @@ class Ecobar_DBService {
     };
 }
 
-function Ecobar_DBMessage(appId, startDate, endDate, classification, message, status, createdBy) {
-    return {
-        id: `${appId}-${startDate.getTime()}`,
-        appId: appId,
-        startDate: startDate,
-        endDate: endDate,
-        classification: classification,
-        message: message,
-        status: status,
-        createdBy: createdBy,
-        modifedBy: createdBy,
-        createdDate: new Date().toISOString(),
-        modifedDated: new Date() .toISOString()
-    };
-};
 
-function Ecobar_DBUser(id, appIds, roles, connectionDate, lastLoginDate, createdBy) {
-    return {
-        id: id,
-        appIds: appIds,
-        roles: roles,
-        lastLoginDate: lastLoginDate,
-        connectionDate: connectionDate,
-        createdBy: createdBy,
-        modifedBy: createdBy,
-        createdDate: new Date().toISOString(),
-        modifedDated: new Date() .toISOString()
-    };
-};
-
-module.exports = function(config) {
-    let dbService = new Ecobar_DBService();
-    dbService.init(config || defaultConfig);
-
-    return {
-        Ecobar_DBService: dbService,
-        Ecobar_DBMessage: Ecobar_DBMessage,
-        Ecobar_DBUser: Ecobar_DBUser
-    };
+module.exports = {
+    Ecobar_DBService
 };

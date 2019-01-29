@@ -1,0 +1,108 @@
+
+body {
+    font-family: arial;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background: #0098fd;
+    padding: 20px 10px;
+}
+
+nav ul {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+nav li {
+    list-style-type: none;
+    display: inline-block;
+    margin: 0 10px 0 0;
+}
+
+nav a {
+    color: #fff;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+}
+
+header {
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 0 10px;
+    color: #333;
+}
+
+.login-button {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    background: #ff5353;
+}
+
+.div-button {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 18px;
+    padding: 40px;
+    background: #ff5353;
+}
+
+.bg-nav {
+    background-color: black;
+}
+
+.bg-nav a {
+    color: rgba(255,255,255,1);
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 800;
+}
+
+.username {
+    display: inline-block;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    position: relative;
+    top: 0px;
+}
+
+p {
+    display: inline-block;
+}
+
+.govt-banner {
+    font-size: 18px; 
+    padding: 20px 80px 80px 80px; 
+    text-align: left; 
+    width: 100%; 
+    border: 2px solid #777; 
+    height: auto;
+}
+
+.gx-button-div {
+    width: 100%;
+    text-align: center;
+}
+
+.gx-button {
+    padding: 20px 15px; 
+    color: black; 
+    font-family: Helvetica, Arial, sans-serif; 
+    background-color: rgb(128, 128, 177);
+}

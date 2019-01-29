@@ -1,56 +1,64 @@
 /**
  * LoggingService
  */
-const path = require('path');
+//const winston = require('winston');
 const winston = require('winston');
+const rotate = require('winston-logrotate');
 const morgan = require('morgan');
-const fs = require('fs');
+const config = require('../../../config/vcap-utils');
 
+const {createLogger, format } = winston;
 
-let defaultConfig = {
-    logLocation: './server.log',
-    timeFormat: 'YYYY-MM-dd HH:mm:ss',
-    level: 'info'
-};
 
 let logger = null,
     morganStreamHandler = null;
 
-let init = function(config) {
-    logger = winston.createLogger({
-        transports: [
-            new winston.transports.Console({
-                level: config.level,
-                colorize: true,
-                format: winston.format.combine(
-                    winston.format.timestamp({ format: config.timeFormat }),
-                    winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
-                )
-            }),
-            new winston.transports.File({
-                filename: config.logLocation,
-                level: config.level,
-                format: winston.format.combine(
-                    winston.format.timestamp({ format: config.timeFormat }),
-                    winston.format.printf(info => `[${info.timestamp}] [${info.level}]: ${info.message}`)
-                )
-            })
-        ]
+let init = function() {
+    logger = createLogger({
+        level: config.logging.level,
+        handleExceptions: config.logging.handleExceptions
     });
-    
-    logger.stream = {
-        write: function(message, encoding) {
-            logger.info(message);
+
+    logger.write = function(chunk) {
+        switch(chunk.level) {
+            case 'info':
+                console.log(`[37m[${new Date().toISOString()}] [[0m[32m${chunk.level}[37m]: ${chunk.message}`);
+                break;
+            case 'error':
+                console.log(`[37m[${new Date().toISOString()}] [[0m[31m${chunk.level}[37m]: ${chunk.message}`);
+                break;
+            case 'warning':
+                console.log(`[37m[${new Date().toISOString()}] [[0m[33m${chunk.level}[37m]: ${chunk.message}`);
+                break;
+            default:
+                console.log(`[${new Date().toISOString()}] [${chunk.level}]: ${chunk.message}`);
         }
     };
-    let accessLogStream = fs.createWriteStream(path.join(__dirname, '..', 'server.log'), { flags: 'a' })
-    morganStreamHandler = morgan('combined', {stream: accessLogStream}); //logger.stream});
+
+    morganStreamHandler = morgan('combined', {stream: { write: message => logger.info(message.trim()) }});
 };
 
-module.exports = function(config) {
-    init(config || defaultConfig);    
-    return {
-        logger: logger,
-        morganStreamHandler: morganStreamHandler
-    };
-}
+
+init();
+
+logger.logInfo = function(message) {
+    console.log(message);
+    logger.info(message);
+};
+    
+logger.logError = function(message, err) {
+    if(err.message) {
+        console.log(message, err.message);
+        logger.error(`message - ${err.message}`);
+    }
+    else {
+        console.log(message, err);
+        logger.error(`message - ${err}`);
+    }
+};
+
+
+module.exports = {
+    logger,
+    morganStreamHandler
+};
